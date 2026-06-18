@@ -1,0 +1,82 @@
+.seatmap-page { padding: 48px; max-width: 1000px; margin: 0 auto; }
+
+.seatmap-header { margin-bottom: 40px; animation: slideUp 0.4s ease; }
+.seatmap-header h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; color: var(--white); }
+.seatmap-header p  { font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+
+.seatmap-sections { display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: wrap; }
+
+.seatmap-section-btn {
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: var(--bg2);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.seatmap-section-btn:hover  { border-color: var(--primary); color: var(--primary); }
+.seatmap-section-btn.active { background: rgba(84,172,191,0.12); border-color: var(--primary); color: var(--primary); font-weight: 700; }
+
+.seatmap-screen { text-align: center; margin-bottom: 36px; }
+.seatmap-screen-bar {
+  display: inline-block;
+  padding: 7px 80px;
+  background: var(--bg3);
+  border-top: 2px solid var(--primary);
+  color: var(--text-muted);
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  border-radius: 0 0 8px 8px;
+}
+
+.seatmap-grid { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 40px; animation: fadeIn 0.3s ease; }
+.seatmap-row { display: flex; align-items: center; gap: 6px; }
+.seatmap-row-label { width: 20px; font-size: 10px; color: var(--gray3); text-align: center; }
+
+.seat {
+  width: 30px;
+  height: 28px;
+  border-radius: 5px 5px 2px 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  border: 1px solid transparent;
+}
+.seat.available { background: var(--bg3); border-color: var(--border2); color: var(--text-muted); }
+.seat.available:hover { background: rgba(84,172,191,0.15); border-color: var(--primary); color: var(--primary); transform: scale(1.15) translateY(-2px); }
+.seat.selected  { background: var(--primary); border-color: var(--primary); color: var(--bg); animation: blueGlow 2s ease infinite; }
+.seat.booked    { background: var(--bg); border-color: var(--border); color: var(--gray3); cursor: not-allowed; }
+.seat.locked    { background: var(--bg2); border-color: var(--border); color: var(--gray3); cursor: not-allowed; }
+
+.seatmap-legend { display: flex; justify-content: center; gap: 24px; margin-bottom: 36px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+
+.seatmap-summary {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  max-width: 460px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: slideUp 0.4s ease;
+}
+.seatmap-summary-seats { font-size: 13px; color: var(--text-muted); }
+.seatmap-summary-price { font-size: 32px; font-weight: 800; font-family: var(--font-head); letter-spacing: -1.5px; color: var(--white); }
+.seatmap-summary-price span { color: var(--primary); }
+
+@media (max-width: 768px) {
+  .seatmap-page { padding: 32px 20px; }
+}

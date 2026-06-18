@@ -1,0 +1,57 @@
+.bookings-page { padding: 48px; max-width: 760px; margin: 0 auto; animation: slideUp 0.4s ease; }
+
+.bookings-page h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 36px; color: var(--white); }
+.bookings-page h1 span { color: var(--primary); }
+
+.bookings-list { display: flex; flex-direction: column; gap: 16px; }
+
+.booking-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px 28px;
+  transition: var(--transition);
+  animation: slideUp 0.4s ease forwards;
+  opacity: 0;
+}
+.booking-item:hover { border-color: var(--border-hover); box-shadow: var(--glow); }
+
+.booking-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+.booking-item-title { font-size: 17px; font-weight: 700; margin-bottom: 5px; color: var(--white); }
+.booking-item-venue { font-size: 12px; color: var(--text-muted); }
+
+.booking-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+.booking-badge.confirmed {
+  background: rgba(99,210,151,0.1);
+  border: 1px solid rgba(99,210,151,0.25);
+  color: var(--success);
+}
+.booking-badge.cancelled {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--gray3);
+}
+
+.booking-item-rows { display: flex; flex-direction: column; gap: 7px; }
+.booking-item-row  { display: flex; justify-content: space-between; font-size: 13px; }
+.booking-item-row span:first-child { color: var(--text-muted); }
+.booking-item-row span:last-child  { color: var(--text-secondary); }
+
+.no-bookings {
+  text-align: center;
+  padding: 100px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
