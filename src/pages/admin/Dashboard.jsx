@@ -7,19 +7,22 @@ import "../../styles/admin.css";
 export default function AdminDashboard() {
   const [events, setEvents] = useState([]);
   const [users,  setUsers]  = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const [evRes, usRes] = await Promise.all([
+        const [evRes, usRes, bkRes] = await Promise.all([
           api.get("/admin/events"),
           api.get("/admin/users"),
+          api.get("/admin/bookings"),
         ]);
         setEvents(evRes.data);
         setUsers(usRes.data);
-      } catch {
-        // silently fail; tables will just be empty
+        setBookings(bkRes.data);
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -28,6 +31,12 @@ export default function AdminDashboard() {
   }, []);
 
   const organizers = users.filter(u => u.role === "organizer");
+
+  // only count confirmed bookings toward revenue
+  const confirmedBookings = bookings.filter(b => b.status === "confirmed");
+  const totalRevenue = confirmedBookings.reduce(
+    (sum, b) => sum + Number(b.total_amount), 0
+  );
 
   return (
     <div className="page-wrapper">
@@ -50,8 +59,8 @@ export default function AdminDashboard() {
           {[
             { label: "Total Users",      value: <><span>{users.length || "—"}</span></> },
             { label: "Total Events",     value: <><span>{events.length || "—"}</span></> },
-            { label: "Total Bookings",   value: <><span>—</span></> },
-            { label: "Platform Revenue", value: <>₹<span>—</span></> },
+            { label: "Total Bookings",   value: <><span>{bookings.length || "—"}</span></> },
+            { label: "Platform Revenue", value: <>₹<span>{totalRevenue.toLocaleString("en-IN")}</span></> },
             { label: "Organizers",       value: <><span>{organizers.length || "—"}</span></> },
           ].map((s, i) => (
             <div className="admin-stat" key={i}>
@@ -86,6 +95,29 @@ export default function AdminDashboard() {
                       <td>{new Date(e.event_date).toLocaleDateString("en-IN")}</td>
                       <td><span className={`admin-badge ${e.status}`}>{e.status}</span></td>
                       <td>{e.organizer_name}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="admin-table-wrap">
+              <div className="admin-table-title">
+                <span>Recent Bookings</span>
+              </div>
+              <table className="admin-table">
+                <thead>
+                  <tr><th>User</th><th>Email</th><th>Event</th><th>Amount</th><th>Status</th><th>Date</th></tr>
+                </thead>
+                <tbody>
+                  {bookings.slice(0, 10).map(b => (
+                    <tr key={b.id}>
+                      <td style={{ color:"var(--white)", fontWeight:500 }}>{b.user_name}</td>
+                      <td>{b.user_email}</td>
+                      <td>{b.event_title}</td>
+                      <td>₹{Number(b.total_amount).toLocaleString("en-IN")}</td>
+                      <td><span className={`admin-badge ${b.status}`}>{b.status}</span></td>
+                      <td>{new Date(b.booked_at).toLocaleDateString("en-IN")}</td>
                     </tr>
                   ))}
                 </tbody>

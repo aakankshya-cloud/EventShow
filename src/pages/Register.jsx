@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/auth.css";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function Register() {
   const { register, login } = useAuth();
   const navigate = useNavigate();
@@ -18,6 +20,10 @@ export default function Register() {
       setError("Please fill in all fields");
       return;
     }
+    if (!EMAIL_REGEX.test(form.email.trim())) {
+      setError("Please enter a valid email address");
+      return;
+    }
     if (form.password !== form.confirm) {
       setError("Passwords do not match");
       return;
@@ -31,7 +37,7 @@ export default function Register() {
     setError("");
 
     const success = await register(
-      form.name, form.email, form.password, form.phone, role
+      form.name, form.email.trim().toLowerCase(), form.password, form.phone, role
     );
 
     if (!success) {
@@ -40,8 +46,7 @@ export default function Register() {
       return;
     }
 
-    // after register, log in automatically
-    const userRole = await login(form.email, form.password);
+    const userRole = await login(form.email.trim().toLowerCase(), form.password);
     setLoading(false);
 
     if (userRole === "admin")     navigate("/admin/dashboard");

@@ -34,16 +34,20 @@ router.post("/register", async (req, res) => {
 // LOGIN
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  console.log("LOGIN ATTEMPT:", email, password);
   try {
     const [rows] = await pool.query(
       "SELECT * FROM users WHERE email = ?", [email]
     );
+    console.log("ROWS FOUND:", rows.length); 
     if (rows.length === 0) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     const user = rows[0];
+    console.log("STORED HASH:", user.password_hash);
     const match = await bcrypt.compare(password, user.password_hash);
+    console.log("PASSWORD MATCH:", match);
     if (!match) {
       return res.status(400).json({ message: "Invalid credentials" });
     }

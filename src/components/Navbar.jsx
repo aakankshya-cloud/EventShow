@@ -30,6 +30,10 @@ export default function Navbar() {
         <Link to="/home?category=sports">Sports</Link>
         <Link to="/home?category=concert">Concerts</Link>
         <Link to="/home?category=plays">Plays</Link>
+        {/* Show My Bookings only for logged-in regular users */}
+        {user?.role === "user" && (
+          <Link to="/my-bookings">My Bookings</Link>
+        )}
       </div>
 
       <div className="navbar-right">

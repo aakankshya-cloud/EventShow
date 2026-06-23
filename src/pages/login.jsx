@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/auth.css";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -15,10 +17,15 @@ export default function Login() {
       setError("Please fill in all fields");
       return;
     }
+    if (!EMAIL_REGEX.test(form.email.trim())) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
     setLoading(true);
     setError("");
 
-    const role = await login(form.email, form.password);
+    const role = await login(form.email.trim().toLowerCase(), form.password);
     setLoading(false);
 
     if (!role) {
